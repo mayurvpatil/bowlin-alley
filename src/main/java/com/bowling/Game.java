@@ -51,7 +51,8 @@ public class Game {
 		} else {
 			first = Integer.parseInt(tok[0]);
 			second = Integer.parseInt(tok[1]);
-			currentFrame.setFrameScore(first + second);
+			if(first + second != 10)
+				currentFrame.setFrameScore(first + second);
 		}
 
 		currentFrame.setFirst(first);

@@ -1,2 +1,2 @@
-# bowlin-alley
+# bowling-alley
 Bowling alley management system

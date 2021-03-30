@@ -6,16 +6,18 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
-import javax.sound.midi.SysexMessage;
-
 import com.bowling.exception.InvalidArgumentException;
 
 public class BowlingAlley {
 
 	int numberOfPlayers = 0;
 	int numberOfLanes = 0;
-	
+
 	BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+	// BufferedReader in = new BufferedReader(new
+	// InputStreamReader(this.getClass().getResourceAsStream("/input.txt")));
+
 	GameContext gameContext = null;
 
 	public BowlingAlley() throws IOException {

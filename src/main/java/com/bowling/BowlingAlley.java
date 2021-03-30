@@ -71,14 +71,22 @@ public class BowlingAlley {
 	private void displayScore(int lane) {
 
 		Game game = gameContext.getGame(lane);
+		String format = "|%1$-10s|%2$-12s|%3$-7s|%4$-12s|%5$-10s\n";
 		for (Map.Entry<String, List<Frame>> entry : game.getGameData().entrySet()) {
 			System.out.println("Player: " + entry.getKey());
+			System.out.format(format, "Frames", "First", "Second", "FrameScore", "Total");
+			int count = 1;
 			for (Frame frame : entry.getValue()) {
-				System.out.print(" | " + frame.getFirst() + ", " + frame.getSecond() + ": " + frame.getFrameScore()
-						+ ", " + frame.totalScore);
+
+				String temp = (frame.getFirst() + frame.getSecond() == 10) ? "/" : Integer.toString(frame.getSecond());
+
+				System.out.format(format, "Frame-" + count++, (frame.getFirst() == 10) ? "X" : frame.getFirst(),
+						(temp.equals("-1")) ? "" : temp, (frame.getFrameScore() == -1) ? "" : frame.getFrameScore(),
+						(frame.getTotalScore() == -1) ? "" : frame.getTotalScore());
 			}
 			System.out.println("");
 		}
+
 	}
 
 	public static void main(String[] args) throws IOException {

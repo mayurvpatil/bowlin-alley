@@ -6,10 +6,15 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
+import javax.sound.midi.SysexMessage;
+
+import com.bowling.exception.InvalidArgumentException;
+
 public class BowlingAlley {
 
 	int numberOfPlayers = 0;
 	int numberOfLanes = 0;
+	
 	BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 	GameContext gameContext = null;
 
@@ -23,22 +28,28 @@ public class BowlingAlley {
 		gameContext = GameContext.init(numberOfLanes);
 
 		while (true) {
+			try {
+				System.out.println("1. Start new game. \n2. Enter game score.\nEnter choice : ");
+				int choice = Integer.parseInt(in.readLine());
 
-			System.out.println("1. Start new game. \n2. Enter game score.\nEnter choice : ");
-			int choice = Integer.parseInt(in.readLine());
-
-			switch (choice) {
-			case 1:
-				startNewGame();
-				break;
-			case 2:
-				addScore();
-				break;
-			default:
-				System.out.println("Invalid command.");
-				break;
+				switch (choice) {
+				case 1:
+					startNewGame();
+					break;
+				case 2:
+					addScore();
+					break;
+				default:
+					System.out.println("Invalid command.");
+					break;
+				}
+			} catch (InvalidArgumentException e) {
+				System.err.println(e.getMessage());
+			} catch (IOException e) {
+				System.err.println(e.getMessage());
 			}
 		}
+
 	}
 
 	private void startNewGame() throws IOException {
@@ -50,8 +61,6 @@ public class BowlingAlley {
 			return;
 		}
 		System.out.println("Allocated lane = " + allocatedLane);
-		System.out.println(
-				"Next Player on Lane: " + allocatedLane + " is : " + gameContext.getGame(allocatedLane).whoIsNext());
 	}
 
 	private void addScore() throws IOException {
@@ -78,10 +87,18 @@ public class BowlingAlley {
 			int count = 1;
 			for (Frame frame : entry.getValue()) {
 
-				String temp = (frame.getFirst() + frame.getSecond() == 10) ? "/" : Integer.toString(frame.getSecond());
-
-				System.out.format(format, "Frame-" + count++, (frame.getFirst() == 10) ? "X" : frame.getFirst(),
-						(temp.equals("-1")) ? "" : temp, (frame.getFrameScore() == -1) ? "" : frame.getFrameScore(),
+				String firstTemp = (frame.getFirst() == 10) ? "X" : Integer.toString(frame.getFirst());
+				String secondtemp = (frame.getFirst() + frame.getSecond() == 10) ? "/"
+						: Integer.toString(frame.getSecond());
+				String frameNumber = "";
+				if (count == 11) {
+					frameNumber = "Extra";
+				} else {
+					frameNumber = "Frame-" + count++;
+				}
+				System.out.format(format, frameNumber, (firstTemp.equals("-1")) ? "" : firstTemp,
+						(secondtemp.equals("-1")) ? "" : secondtemp,
+						(frame.getFrameScore() == -1) ? "" : frame.getFrameScore(),
 						(frame.getTotalScore() == -1) ? "" : frame.getTotalScore());
 			}
 			System.out.println("");

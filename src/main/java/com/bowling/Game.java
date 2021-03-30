@@ -14,11 +14,11 @@ public class Game {
 
 	public Game(String[] players) {
 
-		gameData = new LinkedHashMap<String, List<Frame>>(players.length);
+		gameData = new LinkedHashMap<String, List<Frame>>(players.length + 1);
 
 		for (String player : players) {
 			List<Frame> tmp = new ArrayList<Frame>();
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 11; i++) {
 				tmp.add(new Frame());
 			}
 			gameData.put(player, tmp);
@@ -51,7 +51,7 @@ public class Game {
 		} else {
 			first = Integer.parseInt(tok[0]);
 			second = Integer.parseInt(tok[1]);
-			if(first + second != 10)
+			if (first + second != 10)
 				currentFrame.setFrameScore(first + second);
 		}
 
@@ -101,11 +101,8 @@ public class Game {
 					frameCount += 10;
 
 				// Third condition handled in spare udpade.
-
 				secondLastFrame.setFrameScore(frameCount);
-
 			}
-
 		}
 
 		udpateTotalScore();
@@ -114,19 +111,17 @@ public class Game {
 
 	private void udpateTotalScore() {
 
-		for (Map.Entry<String, List<Frame>> entry : gameData.entrySet()) {
-			int totalScore = 0;
-			for (Frame frame : entry.getValue()) {
-				if (frame.getTotalScore() == -1) {
-					if (frame.getFrameScore() != -1) {
-						totalScore += frame.getFrameScore();
-						frame.setTotalScore(totalScore);
-					} else {
-						return;
-					}
+		int totalScore = 0;
+		for (Frame frame : gameData.get(players[currentPlayer])) {
+			if (frame.getTotalScore() == -1) {
+				if (frame.getFrameScore() != -1) {
+					totalScore += frame.getFrameScore();
+					frame.setTotalScore(totalScore);
 				} else {
-					totalScore = frame.getTotalScore();
+					return;
 				}
+			} else {
+				totalScore = frame.getTotalScore();
 			}
 		}
 

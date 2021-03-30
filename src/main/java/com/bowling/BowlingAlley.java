@@ -13,10 +13,10 @@ public class BowlingAlley {
 	int numberOfPlayers = 0;
 	int numberOfLanes = 0;
 
-	BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+	//BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-	// BufferedReader in = new BufferedReader(new
-	// InputStreamReader(this.getClass().getResourceAsStream("/input.txt")));
+	 BufferedReader in = new BufferedReader(new
+	 InputStreamReader(this.getClass().getResourceAsStream("/input.txt")));
 
 	GameContext gameContext = null;
 
@@ -41,6 +41,8 @@ public class BowlingAlley {
 				case 2:
 					addScore();
 					break;
+				case 3:
+					System.exit(0);
 				default:
 					System.out.println("Invalid command.");
 					break;
@@ -77,6 +79,7 @@ public class BowlingAlley {
 		}
 
 		displayScore(lane);
+		
 	}
 
 	private void displayScore(int lane) {

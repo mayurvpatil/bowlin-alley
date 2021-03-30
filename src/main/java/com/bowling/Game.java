@@ -38,6 +38,7 @@ public class Game {
 	public void updateScore(String score) {
 
 		String[] tok = score.split(" ");
+		if(frame >= 11 ) return;
 		Frame currentFrame = gameData.get(players[currentPlayer]).get(frame);
 
 		int first = -1;
@@ -59,6 +60,24 @@ public class Game {
 		currentFrame.setSecond(second);
 
 		updatePreviousFrames(currentFrame, first, second);
+		
+		if((currentPlayer == players.length -1 ) && frame == 10) {
+			String winner = "";
+			int winningScore = 0;
+			
+			for(String player: players) {
+				int sc = gameData.get(player).get(frame).getTotalScore();
+				if(sc > winningScore) {
+					winningScore = sc;
+					winner = player;
+				}
+			}
+			
+			System.out.println("------------------------");
+			System.out.println(" WINNER IS " + winner );
+			System.out.println("------------------------");
+			
+		}
 
 		if (currentPlayer == players.length - 1)
 			frame++;
